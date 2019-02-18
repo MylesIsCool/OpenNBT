@@ -1,5 +1,6 @@
 package com.github.steveice10.opennbt;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
 import com.github.steveice10.opennbt.tag.TagCreateException;
 import com.github.steveice10.opennbt.tag.TagRegistry;
 import com.github.steveice10.opennbt.tag.builtin.CompoundTag;
@@ -75,7 +76,7 @@ public class NBTIO {
             in = new GZIPInputStream(in);
         }
 
-        Tag tag = readTag(in, littleEndian);
+        Tag tag = readTag(in, littleEndian, MemoryUsageTracker.UNLIMITED);
         if(!(tag instanceof CompoundTag)) {
             throw new IOException("Root tag is not a CompoundTag!");
         }
@@ -152,8 +153,12 @@ public class NBTIO {
      * @return The read tag, or null if the tag is an end tag.
      * @throws java.io.IOException If an I/O error occurs.
      */
+    public static Tag readTag(InputStream in, MemoryUsageTracker tracker) throws IOException {
+        return readTag(in, false, tracker);
+    }
+
     public static Tag readTag(InputStream in) throws IOException {
-        return readTag(in, false);
+        return readTag(in, MemoryUsageTracker.UNLIMITED);
     }
 
     /**
@@ -164,8 +169,12 @@ public class NBTIO {
      * @return The read tag, or null if the tag is an end tag.
      * @throws java.io.IOException If an I/O error occurs.
      */
+    public static Tag readTag(InputStream in, boolean littleEndian, MemoryUsageTracker tracker) throws IOException {
+        return readTag((DataInput) (littleEndian ? new LittleEndianDataInputStream(in) : new DataInputStream(in)), tracker);
+    }
+
     public static Tag readTag(InputStream in, boolean littleEndian) throws IOException {
-        return readTag((DataInput) (littleEndian ? new LittleEndianDataInputStream(in) : new DataInputStream(in)));
+        return readTag(in, littleEndian, MemoryUsageTracker.UNLIMITED);
     }
 
     /**
@@ -175,23 +184,31 @@ public class NBTIO {
      * @return The read tag, or null if the tag is an end tag.
      * @throws java.io.IOException If an I/O error occurs.
      */
-    public static Tag readTag(DataInput in) throws IOException {
+    public static Tag readTag(DataInput in, MemoryUsageTracker tracker) throws IOException {
         int id = in.readUnsignedByte();
         if(id == 0) {
+            tracker.addAndCheck(8);
             return null;
         }
 
         String name = in.readUTF();
+        tracker.addAndCheck(28 + 2 * name.length());
         Tag tag;
 
         try {
+            tracker.addAndCheck(36);
             tag = TagRegistry.createInstance(id, name);
         } catch(TagCreateException e) {
             throw new IOException("Failed to create tag.", e);
         }
 
-        tag.read(in);
+        tag.read(in, tracker);
         return tag;
+    }
+
+
+    public static Tag readTag(DataInput in) throws IOException {
+        return readTag(in, MemoryUsageTracker.UNLIMITED);
     }
 
     /**

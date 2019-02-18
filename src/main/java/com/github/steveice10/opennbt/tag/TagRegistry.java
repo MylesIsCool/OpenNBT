@@ -14,7 +14,7 @@ import com.github.steveice10.opennbt.tag.builtin.StringTag;
 import com.github.steveice10.opennbt.tag.builtin.Tag;
 import com.github.steveice10.opennbt.tag.builtin.custom.DoubleArrayTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.FloatArrayTag;
-import com.github.steveice10.opennbt.tag.builtin.custom.LongArrayTag;
+import com.github.steveice10.opennbt.tag.builtin.LongArrayTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.SerializableArrayTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.SerializableTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.ShortArrayTag;
@@ -43,12 +43,12 @@ public class TagRegistry {
         register(9, ListTag.class);
         register(10, CompoundTag.class);
         register(11, IntArrayTag.class);
+        register(12, LongArrayTag.class);
 
         register(60, DoubleArrayTag.class);
         register(61, FloatArrayTag.class);
-        register(62, LongArrayTag.class);
-        register(63, SerializableArrayTag.class);
-        register(64, SerializableTag.class);
+        //register(63, SerializableArrayTag.class);
+        //register(64, SerializableTag.class);
         register(65, ShortArrayTag.class);
         register(66, StringArrayTag.class);
     }

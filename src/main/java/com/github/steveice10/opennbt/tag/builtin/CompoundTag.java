@@ -1,6 +1,7 @@
 package com.github.steveice10.opennbt.tag.builtin;
 
 import com.github.steveice10.opennbt.NBTIO;
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -147,11 +148,13 @@ public class CompoundTag extends Tag implements Iterable<Tag> {
     }
 
     @Override
-    public void read(DataInput in) throws IOException {
+    public void read(DataInput in, MemoryUsageTracker tracker) throws IOException {
+        tracker.addAndCheck(48);
+        // todo depth?
         List<Tag> tags = new ArrayList<Tag>();
         try {
             Tag tag;
-            while((tag = NBTIO.readTag(in)) != null) {
+            while((tag = NBTIO.readTag(in, tracker)) != null) {
                 tags.add(tag);
             }
         } catch(EOFException e) {

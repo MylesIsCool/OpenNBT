@@ -1,5 +1,6 @@
 package com.github.steveice10.opennbt.tag.builtin;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
 import com.github.steveice10.opennbt.tag.TagCreateException;
 import com.github.steveice10.opennbt.tag.TagRegistry;
 
@@ -143,7 +144,9 @@ public class ListTag extends Tag implements Iterable<Tag> {
     }
 
     @Override
-    public void read(DataInput in) throws IOException {
+    public void read(DataInput in, MemoryUsageTracker tracker) throws IOException {
+        // todo depth?
+        tracker.addAndCheck(37);
         int id = in.readUnsignedByte();
         this.type = TagRegistry.getClassFor(id);
         this.value = new ArrayList<Tag>();
@@ -152,6 +155,7 @@ public class ListTag extends Tag implements Iterable<Tag> {
         }
 
         int count = in.readInt();
+        tracker.addAndCheck(4 * count);
         for(int index = 0; index < count; index++) {
             Tag tag = null;
             try {
@@ -160,7 +164,7 @@ public class ListTag extends Tag implements Iterable<Tag> {
                 throw new IOException("Failed to create tag.", e);
             }
 
-            tag.read(in);
+            tag.read(in, tracker);
             this.add(tag);
         }
     }

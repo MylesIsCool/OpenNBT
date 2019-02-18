@@ -1,5 +1,7 @@
 package com.github.steveice10.opennbt.tag.builtin;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -45,8 +47,10 @@ public class StringTag extends Tag {
     }
 
     @Override
-    public void read(DataInput in) throws IOException {
+    public void read(DataInput in, MemoryUsageTracker tracker) throws IOException {
+        tracker.addAndCheck(36);
         this.value = in.readUTF();
+        tracker.addAndCheck(this.value.length() * 2);
     }
 
     @Override

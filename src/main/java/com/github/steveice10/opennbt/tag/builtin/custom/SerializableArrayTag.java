@@ -1,5 +1,6 @@
 package com.github.steveice10.opennbt.tag.builtin.custom;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
 import com.github.steveice10.opennbt.tag.builtin.Tag;
 
 import java.io.DataInput;
@@ -85,7 +86,8 @@ public class SerializableArrayTag extends Tag {
     }
 
     @Override
-    public void read(DataInput in) throws IOException {
+    public void read(DataInput in, MemoryUsageTracker tracker) throws IOException {
+        // TODO limit this
         this.value = new Serializable[in.readInt()];
         ObjectInputStream str = new ObjectInputStream(new DataInputInputStream(in));
         for(int index = 0; index < this.value.length; index++) {

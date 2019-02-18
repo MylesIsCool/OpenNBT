@@ -1,5 +1,7 @@
 package com.github.steveice10.opennbt.tag.builtin;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -78,8 +80,11 @@ public class IntArrayTag extends Tag {
     }
 
     @Override
-    public void read(DataInput in) throws IOException {
-        this.value = new int[in.readInt()];
+    public void read(DataInput in, MemoryUsageTracker tracker) throws IOException {
+        tracker.addAndCheck(24);
+        int size = in.readInt();
+        tracker.addAndCheck(size * 4);
+        this.value = new int[size];
         for(int index = 0; index < this.value.length; index++) {
             this.value[index] = in.readInt();
         }

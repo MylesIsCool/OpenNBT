@@ -1,5 +1,6 @@
 package com.github.steveice10.opennbt.tag.builtin.custom;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
 import com.github.steveice10.opennbt.tag.builtin.Tag;
 
 import java.io.DataInput;
@@ -80,10 +81,14 @@ public class StringArrayTag extends Tag {
     }
 
     @Override
-    public void read(DataInput in) throws IOException {
-        this.value = new String[in.readInt()];
+    public void read(DataInput in, MemoryUsageTracker tracker) throws IOException {
+        tracker.addAndCheck(24);
+        int size = in.readInt();
+        tracker.addAndCheck(size * 36);
+        this.value = new String[size];
         for(int index = 0; index < this.value.length; index++) {
             this.value[index] = in.readUTF();
+            tracker.addAndCheck(this.value[index].length() * 2);
         }
     }
 

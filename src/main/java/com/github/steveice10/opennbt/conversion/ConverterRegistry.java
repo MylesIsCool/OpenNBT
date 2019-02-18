@@ -13,7 +13,7 @@ import com.github.steveice10.opennbt.conversion.builtin.ShortTagConverter;
 import com.github.steveice10.opennbt.conversion.builtin.StringTagConverter;
 import com.github.steveice10.opennbt.conversion.builtin.custom.DoubleArrayTagConverter;
 import com.github.steveice10.opennbt.conversion.builtin.custom.FloatArrayTagConverter;
-import com.github.steveice10.opennbt.conversion.builtin.custom.LongArrayTagConverter;
+import com.github.steveice10.opennbt.conversion.builtin.LongArrayTagConverter;
 import com.github.steveice10.opennbt.conversion.builtin.custom.SerializableArrayTagConverter;
 import com.github.steveice10.opennbt.conversion.builtin.custom.SerializableTagConverter;
 import com.github.steveice10.opennbt.conversion.builtin.custom.ShortArrayTagConverter;
@@ -33,7 +33,7 @@ import com.github.steveice10.opennbt.tag.builtin.StringTag;
 import com.github.steveice10.opennbt.tag.builtin.Tag;
 import com.github.steveice10.opennbt.tag.builtin.custom.DoubleArrayTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.FloatArrayTag;
-import com.github.steveice10.opennbt.tag.builtin.custom.LongArrayTag;
+import com.github.steveice10.opennbt.tag.builtin.LongArrayTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.SerializableArrayTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.SerializableTag;
 import com.github.steveice10.opennbt.tag.builtin.custom.ShortArrayTag;
@@ -70,8 +70,8 @@ public class ConverterRegistry {
         register(DoubleArrayTag.class, double[].class, new DoubleArrayTagConverter());
         register(FloatArrayTag.class, float[].class, new FloatArrayTagConverter());
         register(LongArrayTag.class, long[].class, new LongArrayTagConverter());
-        register(SerializableArrayTag.class, Serializable[].class, new SerializableArrayTagConverter());
-        register(SerializableTag.class, Serializable.class, new SerializableTagConverter());
+        //register(SerializableArrayTag.class, Serializable[].class, new SerializableArrayTagConverter());
+        //register(SerializableTag.class, Serializable.class, new SerializableTagConverter());
         register(ShortArrayTag.class, short[].class, new ShortArrayTagConverter());
         register(StringArrayTag.class, String[].class, new StringArrayTagConverter());
     }

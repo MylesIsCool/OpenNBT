@@ -1,5 +1,7 @@
 package com.github.steveice10.opennbt.tag.builtin;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
@@ -45,7 +47,7 @@ public abstract class Tag implements Cloneable {
      * @param in Stream to write to.
      * @throws java.io.IOException If an I/O error occurs.
      */
-    public abstract void read(DataInput in) throws IOException;
+    public abstract void read(DataInput in, MemoryUsageTracker tracker) throws IOException;
 
     /**
      * Writes this tag to an output stream.

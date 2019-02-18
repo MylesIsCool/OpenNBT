@@ -1,5 +1,6 @@
 package com.github.steveice10.opennbt.tag.builtin.custom;
 
+import com.github.steveice10.opennbt.tag.MemoryUsageTracker;
 import com.github.steveice10.opennbt.tag.builtin.Tag;
 
 import java.io.DataInput;
@@ -52,7 +53,8 @@ public class SerializableTag extends Tag {
     }
 
     @Override
-    public void read(DataInput in) throws IOException {
+    public void read(DataInput in, MemoryUsageTracker tracker) throws IOException {
+        // todo memory track
         ObjectInputStream str = new ObjectInputStream(new DataInputInputStream(in));
         try {
             this.value = (Serializable) str.readObject();
