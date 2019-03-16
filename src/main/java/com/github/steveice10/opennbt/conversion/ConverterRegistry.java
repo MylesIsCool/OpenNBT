@@ -66,10 +66,10 @@ public class ConverterRegistry {
         register(ListTag.class, List.class, new ListTagConverter());
         register(CompoundTag.class, Map.class, new CompoundTagConverter());
         register(IntArrayTag.class, int[].class, new IntArrayTagConverter());
+        register(LongArrayTag.class, long[].class, new LongArrayTagConverter());
 
         register(DoubleArrayTag.class, double[].class, new DoubleArrayTagConverter());
         register(FloatArrayTag.class, float[].class, new FloatArrayTagConverter());
-        register(LongArrayTag.class, long[].class, new LongArrayTagConverter());
         //register(SerializableArrayTag.class, Serializable[].class, new SerializableArrayTagConverter());
         //register(SerializableTag.class, Serializable.class, new SerializableTagConverter());
         register(ShortArrayTag.class, short[].class, new ShortArrayTagConverter());
